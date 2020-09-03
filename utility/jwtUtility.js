@@ -9,6 +9,7 @@ function generateToken(user) {
 }
 
 function verifyToken(token, callBack) {
+    token = token.replace('Bearer ','');
     return jwt.verify(token, key, callBack)
 }
 

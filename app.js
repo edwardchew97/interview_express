@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require('./utility/databaseUtility');
 const authRouter = require('./routes/auth/authRouter');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/user/userRouter');
 
 // Initializing app
 var app = express();

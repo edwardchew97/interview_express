@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
-const CustomError = require('../utility/CustomError');
 const Schema = mongoose.Schema;
+const jwt = require('../utility/jwtUtility.js');
 mongoose.set('useCreateIndex', true);
 
 /////////////////////////////////
@@ -13,12 +13,29 @@ const userSchema = new Schema({
     password: String,
 },{collection:'users'});
 
+userSchema.set('toObject', {
+    getters: true,
+    transform:(dot,ret,options)=>{
+        delete ret._id
+        //delete ret.id
+        delete ret.password
+        delete ret.__v
+        return ret
+    }
+});
 
 /////////////////////////////////
 //          Methos             //
 /////////////////////////////////
 userSchema.methods.attempt = function(password) {
-    return bcrypt.compareSync(password ,this.password)
+    if (!bcrypt.compareSync(password ,this.password))
+        return false;
+    
+    const user = this.toObject()
+    return {
+        ...user,
+        access_token : jwt.generateToken(user)
+    };
 }
 
 /////////////////////////////////
