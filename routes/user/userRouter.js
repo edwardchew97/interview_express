@@ -11,7 +11,8 @@ router.get('/', [
 ],
 	async function (req, res, next) {
 		let query = req.query.name;
-		let users = await User.find({name:{$regex:`^${query}.*`}}).exec()
+		let condition = query?{$regex:`^${query}.*`}:null;
+		let users = await User.find({name:condition}).exec()
 		return respondSuccess(res,'Users retrieved successfully',users);
 	}
 );
