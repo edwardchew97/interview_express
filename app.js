@@ -5,6 +5,7 @@ const logger = require('morgan');
 const db = require('./utility/databaseUtility');
 const authRouter = require('./routes/auth/authRouter');
 const usersRouter = require('./routes/user/userRouter');
+const cors = require('cors')
 
 // Initializing app
 var app = express();
@@ -14,6 +15,13 @@ db.connectDB();
 ///////////////////////////////////
 //      Utilities Middleware     //
 ///////////////////////////////////
+const corsOptions = {
+    origin:[ "http://localhost:3000"] ,
+    optionsSuccessStatus: 200,
+    credentials:true
+}
+  
+app.use(cors(corsOptions))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
