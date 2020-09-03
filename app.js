@@ -2,20 +2,42 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const db = require('./utility/db');
-const indexRouter = require('./routes/index');
+const db = require('./utility/databaseUtility');
+const authRouter = require('./routes/auth/authRouter');
 const usersRouter = require('./routes/users');
 
+// Initializing app
 var app = express();
 db.connectDB();
 
+
+///////////////////////////////////
+//      Utilities Middleware     //
+///////////////////////////////////
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+
+/////////////////////////////////
+//      Registering Routes     //
+/////////////////////////////////
+app.use('/auth', authRouter);
 app.use('/users', usersRouter);
+
+
+////////////////////////////
+//      Error handler     //
+////////////////////////////
+app.use(function (err, req, res, next) {
+    res.status(err.status).send({
+        result : 'error',
+        status : err.status,
+        message: err.message
+    })
+})
+
 
 module.exports = app;
