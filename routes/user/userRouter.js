@@ -10,7 +10,8 @@ router.get('/', [
 	errorValidation
 ],
 	async function (req, res, next) {
-		let users = await User.find().exec()
+		let query = req.query.name;
+		let users = await User.find({name:{$regex:`^${query}.*`}}).exec()
 		return respondSuccess(res,'Users retrieved successfully',users);
 	}
 );
