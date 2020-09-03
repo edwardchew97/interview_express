@@ -33,7 +33,7 @@ userSchema.methods.attempt = function(password) {
     
     const user = this.toObject()
     return {
-        ...user,
+        user,
         access_token : jwt.generateToken(user)
     };
 }
