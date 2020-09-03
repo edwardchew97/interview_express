@@ -16,7 +16,7 @@ db.connectDB();
 //      Utilities Middleware     //
 ///////////////////////////////////
 const corsOptions = {
-    origin:[ "http://localhost:3000",'https://afternoon-sierra-21754.herokuapp.com'] ,
+    origin:[ "http://localhost:3000","http://localhost:3001",'https://afternoon-sierra-21754.herokuapp.com'] ,
     optionsSuccessStatus: 200,
     credentials:true
 }
